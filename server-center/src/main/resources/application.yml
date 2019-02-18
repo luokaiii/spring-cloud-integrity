@@ -1,0 +1,36 @@
+spring:
+  profiles:
+    active: master
+
+---
+server:
+  port: 8761
+
+spring:
+  profiles: master
+  application:
+    name: eureka-server
+eureka:
+  instance:
+    hostname: master
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://slave:18761/eureka/
+
+---
+server:
+  port: 18761
+spring:
+  profiles: slave
+  application:
+    name: eureka-server
+eureka:
+  instance:
+    hostname: slave
+  client:
+    service-url:
+      defaultZone: http://master:8761/eureka/
+    register-with-eureka: false
+    fetch-registry: false

@@ -1,0 +1,24 @@
+server:
+  port: 8762
+
+spring:
+  application:
+    name: cloud-oauth2
+  redis:
+    host: localhost
+    port: 7369
+    password: password
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/oauth?characterEncoding=UTF-8
+    username: root
+    password: password
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+feign:
+  hystrix:
+  enabled: true
