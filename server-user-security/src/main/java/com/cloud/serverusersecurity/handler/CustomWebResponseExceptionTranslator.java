@@ -1,4 +1,4 @@
-package com.cloud.serverusersecurity.config;
+package com.cloud.serverusersecurity.handler;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;

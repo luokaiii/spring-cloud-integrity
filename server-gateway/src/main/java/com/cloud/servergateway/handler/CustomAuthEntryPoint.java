@@ -1,7 +1,5 @@
-package com.cloud.serverusersecurity.config;
+package com.cloud.servergateway.handler;
 
-import com.cloud.serverusersecurity.model.ResponseResult;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;

@@ -10,6 +10,7 @@
     <modules>
         <module>server-center</module>
         <module>server-user-security</module>
+        <module>server-gateway</module>
     </modules>
     <packaging>pom</packaging>
 
