@@ -45,13 +45,13 @@ public class SsoAuthorizationServerConfig extends AuthorizationServerConfigurerA
                 //   2. Cloud 版本则需要将密码进行 PasswordEncoder，且该配置需要与Security中配置相同
                 .secret(passwordEncoder.encode("clientSecret"))
                 .authorizedGrantTypes("authorization_code", "refresh_token", "password")
-                .redirectUris("http://127.0.0.1:8080/client1/index.html")
+                .redirectUris("http://localhost:8080/client1/login")
                 .scopes("all")
                 .and()
                 .withClient("client2")
                 .secret(passwordEncoder.encode("clientSecret"))
-                .authorizedGrantTypes("authorization_code", "refresh_token")
-                .redirectUris("http://127.0.0.1:8060/client2/index.html")
+                .authorizedGrantTypes("authorization_code", "refresh_token","password")
+                .redirectUris("http://localhost:8060/client2/login")
                 .scopes("all");
     }
 

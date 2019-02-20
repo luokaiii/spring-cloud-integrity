@@ -15,6 +15,7 @@
     <modules>
         <module>../security-sso-server</module>
         <module>../security-sso-client</module>
+        <module>../security-sso-client2</module>
     </modules>
 
     <!-- 定义SpringBoot的版本-->
