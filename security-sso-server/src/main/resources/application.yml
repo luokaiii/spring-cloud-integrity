@@ -1,16 +1,18 @@
 server:
   port: 9999
   servlet:
-    context-path: /server
+    context-path: /oauth2-server
 
+# 这里的name不能加"/" 否则在注册服务时，会使用 "localhost:/OAUTH2_SERVER:9999/oauth2_server" 来注册
 spring:
-  security:
-    user:
-      password: 123456
   application:
-    name: /server
+    name: oauth2-server
 
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://127.0.0.1:8761/eureka/
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+feign:
+  hystrix:
+    enabled: true

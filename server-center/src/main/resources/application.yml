@@ -14,10 +14,12 @@ eureka:
   instance:
     hostname: master
   client:
+    # 下面两个属性，是告诉当前实例，不需要查找Eureka实例注册自己
     register-with-eureka: false
     fetch-registry: false
     service-url:
-      defaultZone: http://slave:18761/eureka/
+      # 如果 CloudFoundry 的 VCAP_SERVICES 环境变量不存在或包含有效凭证，则Eureka客户端连接到localhost运行的实例
+      defaultZone: ${vcap.services.eureka-service.credentials.uri:http://slave:18761}/eureka/
 
 ---
 server:
@@ -31,6 +33,6 @@ eureka:
     hostname: slave
   client:
     service-url:
-      defaultZone: http://master:8761/eureka/
+      defaultZone: ${vcap.services.eureka-service.credentials.uri:http://slave:8761}/eureka/
     register-with-eureka: false
     fetch-registry: false
