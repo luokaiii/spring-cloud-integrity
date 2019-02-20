@@ -2,8 +2,6 @@ package com.cloud.servergateway.config;
 
 import com.cloud.servergateway.handler.CustomAccessDeniedHandler;
 import com.cloud.servergateway.handler.CustomAuthEntryPoint;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.security.oauth2.OAuth2ClientProperties;
@@ -24,7 +22,6 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
-    private final static Logger log = LoggerFactory.getLogger(ResourceServerConfig.class);
 
     private final OAuth2ClientProperties oAuth2ClientProperties;
 
@@ -79,7 +76,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     }
 
     @Override
-    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+    public void configure(ResourceServerSecurityConfigurer resources) {
         resources
                 .tokenServices(tokenServices())
                 .accessDeniedHandler(customAccessDeniedHandler)

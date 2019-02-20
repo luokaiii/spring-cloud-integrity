@@ -3,7 +3,7 @@ package com.cloud.serverusersecurity.config;
 import com.cloud.serverusersecurity.handler.CustomAccessDeniedHandler;
 import com.cloud.serverusersecurity.handler.CustomAuthEntryPoint;
 import com.cloud.serverusersecurity.handler.CustomWebResponseExceptionTranslator;
-import com.cloud.serverusersecurity.service.CustomUserDetailsService;
+import com.cloud.serverusersecurity.service.LoginUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
-    private final CustomUserDetailsService customUserDetailsService;
+    private final LoginUserService loginUserService;
 
     private final DataSource dataSource;
 
@@ -52,20 +52,20 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                                      CustomAuthEntryPoint customAuthEntryPoint,
                                      RedisConnectionFactory redisConnectionFactory,
                                      AuthenticationManager authenticationManager,
-                                     CustomUserDetailsService customUserDetailsService,
+                                     LoginUserService loginUserService,
                                      DataSource dataSource,
                                      CustomWebResponseExceptionTranslator customWebResponseExceptionTranslator) {
         this.customAccessDeniedHandler = customAccessDeniedHandler;
         this.customAuthEntryPoint = customAuthEntryPoint;
         this.redisConnectionFactory = redisConnectionFactory;
         this.authenticationManager = authenticationManager;
-        this.customUserDetailsService = customUserDetailsService;
+        this.loginUserService = loginUserService;
         this.dataSource = dataSource;
         this.customWebResponseExceptionTranslator = customWebResponseExceptionTranslator;
     }
 
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+    public void configure(AuthorizationServerSecurityConfigurer security) {
         security.allowFormAuthenticationForClients()
                 .checkTokenAccess("isAuthenticated")
                 .tokenKeyAccess("permitAll()")
@@ -94,10 +94,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      * authenticationManager：身份认证管理器，用于"password"授权模式
      */
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints
                 .authenticationManager(authenticationManager)
-                .userDetailsService(customUserDetailsService)
+                .userDetailsService(loginUserService)
                 .tokenServices(tokenServices())
                 .exceptionTranslator(customWebResponseExceptionTranslator);
     }
