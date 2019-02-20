@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @RestController
 @EnableOAuth2Sso
-@ComponentScan(basePackages = "com.cloud.security.sso")
+@ComponentScan(basePackages = "com.cloud")
 public class SsoClient2Application {
 
     @GetMapping("/user")

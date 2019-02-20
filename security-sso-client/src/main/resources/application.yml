@@ -3,11 +3,11 @@ security:
     client:
       clientId: client1
       clientSecret: clientSecret
-      user-authorization-uri: http://127.0.0.1:9999/server/oauth/authorize
-      access-token-uri: http://127.0.0.1:9999/server/oauth/token
+      user-authorization-uri: http://localhost:9999/server/oauth/authorize
+      access-token-uri: http://localhost:9999/server/oauth/token
     resource:
       jwt:
-        key-uri: http://127.0.0.1:9999/server/oauth/token_key
+        key-uri: http://localhost:9999/server/oauth/token_key
 
 server:
   port: 8080

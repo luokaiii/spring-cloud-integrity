@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.cloud.security.sso")
+@ComponentScan(basePackages = "com.cloud")
 public class SsoServerApplication {
 
     public static void main(String[] args) {
