@@ -1,8 +1,9 @@
 package com.cloud.security.sso.server.config;
 
+import com.cloud.security.sso.server.handler.CustomPasswordEncoder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -16,11 +17,12 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 /**
  * 认证服务器配置
  */
+@Slf4j
 @Configuration
 @EnableAuthorizationServer
 public class SsoAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private PasswordEncoder passwordEncoder = new CustomPasswordEncoder();
 
     /**
      * 客户端相关配置
@@ -38,18 +40,19 @@ public class SsoAuthorizationServerConfig extends AuthorizationServerConfigurerA
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        log.info("实例初始密码为：" + passwordEncoder.encode("clientSecret"));
         clients.inMemory()
                 .withClient("client1")
                 // 这个有个非常大的问题: 即 Spring-Security-OAuth2 依赖和 Spring-Cloud-Starter-OAuth2 依赖的区别：
                 //   1. SpringSecurityOAuth2 直接填写客户端密码即可
                 //   2. Cloud 版本则需要将密码进行 PasswordEncoder，且该配置需要与Security中配置相同
-                .secret(passwordEncoder.encode("clientSecret"))
+                .secret("clientSecret")
                 .authorizedGrantTypes("authorization_code", "refresh_token", "password")
                 .redirectUris("http://localhost:8080/client1/login")
                 .scopes("all")
                 .and()
                 .withClient("client2")
-                .secret(passwordEncoder.encode("clientSecret"))
+                .secret("clientSecret")
                 .authorizedGrantTypes("authorization_code", "refresh_token","password")
                 .redirectUris("http://localhost:8060/client2/login")
                 .scopes("all");
