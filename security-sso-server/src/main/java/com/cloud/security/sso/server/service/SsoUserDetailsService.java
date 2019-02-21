@@ -1,5 +1,6 @@
 package com.cloud.security.sso.server.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 /**
  * 自定义UserDetailsService
  */
+@Slf4j
 @Component
 public class SsoUserDetailsService implements UserDetailsService {
 
@@ -36,6 +38,7 @@ public class SsoUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // $2a$10$zwZkpFeUHe181WCkJ5lrLupw6sk6TFwKXMuLRHST/aOQgHab8BQFG
+        log.info("登录名：" + username + ",密码：" + passwordEncoder.encode("123456"));
         return new User(username, passwordEncoder.encode("123456")
                 , AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER"));
     }

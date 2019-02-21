@@ -9,11 +9,11 @@ security:
     client:
       clientId: ${spring.application.name}
       clientSecret: clientSecret
-      user-authorization-uri: http://oauth2-server/oauth2-server/oauth/authorize
-      access-token-uri: http://oauth2-server/oauth2-server/oauth/token
+      user-authorization-uri: http://localhost:9999/oauth2-server/oauth/authorize
+      access-token-uri: http://localhost:9999/oauth2-server/oauth/token
     resource:
       jwt:
-        key-uri: http://oauth2-server/oauth2-server/oauth/token_key
+        key-uri: http://localhost:9999/oauth2-server/oauth/token_key
 
 # 声明端口与前缀
 server:
