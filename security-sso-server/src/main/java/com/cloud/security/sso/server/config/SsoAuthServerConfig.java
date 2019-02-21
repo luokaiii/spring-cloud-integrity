@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * SpringSecurity安全配置
  */
 @Configuration
-public class SsoSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SsoAuthServerConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private SsoUserDetailsService userDetailsService;

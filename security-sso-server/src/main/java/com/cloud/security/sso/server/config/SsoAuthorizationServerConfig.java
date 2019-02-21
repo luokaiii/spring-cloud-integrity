@@ -24,6 +24,13 @@ public class SsoAuthorizationServerConfig extends AuthorizationServerConfigurerA
 
     private PasswordEncoder passwordEncoder = new CustomPasswordEncoder();
 
+//    @Autowired
+//    private DataSource dataSource;
+//
+//    @Bean
+//    public JdbcClientDetailsService clientDetailsService(DataSource dataSource){
+//        return new JdbcClientDetailsService(dataSource);
+//    }
     /**
      * 客户端相关配置
      * 添加哪些客户端可以进行Token申请，以及客户端的相关配置
@@ -40,6 +47,7 @@ public class SsoAuthorizationServerConfig extends AuthorizationServerConfigurerA
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+//        clients.withClientDetails(clientDetailsService(dataSource));
         log.info("实例初始密码为：" + passwordEncoder.encode("clientSecret"));
         clients.inMemory()
                 .withClient("client1")
@@ -67,6 +75,7 @@ public class SsoAuthorizationServerConfig extends AuthorizationServerConfigurerA
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
         security
+                .tokenKeyAccess("permitAll()")
                 .tokenKeyAccess("isAuthenticated()");
     }
 
