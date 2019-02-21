@@ -1,13 +1,12 @@
 package com.cloud.security.sso.server.service;
 
+import com.cloud.security.sso.server.model.UserInfoDetails;
+import com.cloud.security.sso.server.repository.UserInfoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,15 +15,14 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class SsoUserDetailsService implements UserDetailsService {
-
     /**
-     * PasswordEncoder 在 SecurityConfig 中已经声明为Bean 了，所以这里可以直接注入
+     * 注入User的仓库，用来做身份认证
      */
-    private final PasswordEncoder passwordEncoder;
+    private final UserInfoRepository userInfoRepository;
 
     @Autowired
-    public SsoUserDetailsService(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
+    public SsoUserDetailsService(UserInfoRepository userInfoRepository) {
+        this.userInfoRepository = userInfoRepository;
     }
 
     /**
@@ -37,9 +35,10 @@ public class SsoUserDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // $2a$10$zwZkpFeUHe181WCkJ5lrLupw6sk6TFwKXMuLRHST/aOQgHab8BQFG
-        log.info("登录名：" + username + ",密码：" + passwordEncoder.encode("123456"));
-        return new User(username, passwordEncoder.encode("123456")
-                , AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER"));
+        userInfoRepository.findByPhoneOrEmail(username, username)
+                .orElseThrow(() -> new UsernameNotFoundException("抱歉,未找到您的身份信息!"));
+        log.info("查询用户信息: {},开始装载权限.", username);
+
+        return new UserInfoDetails(username);
     }
 }

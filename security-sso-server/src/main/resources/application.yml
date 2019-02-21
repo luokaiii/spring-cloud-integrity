@@ -7,7 +7,20 @@ server:
 spring:
   application:
     name: oauth2-server
-
+  # MySQL 数据库连接
+  datasource:
+    url: jdbc:mysql://localhost:3306/oauth?characterEncoding=UTF-8
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: password
+  # 更新创建表
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
 eureka:
   client:
     service-url:
