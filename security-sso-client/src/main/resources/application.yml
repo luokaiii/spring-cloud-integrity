@@ -13,18 +13,18 @@ security:
     client:
       clientId: ${spring.application.name}
       clientSecret: clientSecret
-      user-authorization-uri: http://localhost:9999/oauth2-server/oauth/authorize
-      access-token-uri: http://localhost:9999/oauth2-server/oauth/token
+      user-authorization-uri: http://localhost:9999/oauth/authorize
+      access-token-uri: http://localhost:9999/oauth/token
     resource:
       jwt:
-        key-uri: http://localhost:9999/oauth2-server/oauth/token_key
+        key-uri: http://localhost:9999/oauth/token_key
 
 # 声明端口与前缀
 server:
   port: 8080
-  servlet:
+    #  servlet:
     #    context-path 必须带上"/"
-    context-path: /${spring.application.name}
+#    context-path: /${spring.application.name}
 
 # 注册Eureka服务
 eureka:

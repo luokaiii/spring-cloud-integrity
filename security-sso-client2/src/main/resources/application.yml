@@ -9,12 +9,12 @@ security:
       clientId: ${spring.application.name}
       #      Basic Y2xpZW50MTpjbGllbnRTZWNyZXQ=
       clientSecret: clientSecret
-      user-authorization-uri: http://localhost:9999/oauth2-server/oauth/authorize
-      access-token-uri: http://localhost:9999/oauth2-server/oauth/token
+      user-authorization-uri: http://localhost:9999/oauth/authorize
+      access-token-uri: http://localhost:9999/oauth/token
 #      registered-redirect-uri: http://localhost:${server.port}/${security.oauth2.client.clientId}/index.html
     resource:
       jwt:
-        key-uri: http://localhost:9999/oauth2-server/oauth/token_key
+        key-uri: http://localhost:9999/oauth/token_key
 
 server:
   port: 8060

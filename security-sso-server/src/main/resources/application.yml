@@ -1,7 +1,7 @@
 server:
   port: 9999
-  servlet:
-    context-path: /oauth2-server
+#  servlet:
+#    context-path: /oauth2-server
 
 # 这里的name不能加"/" 否则在注册服务时，会使用 "localhost:/OAUTH2_SERVER:9999/oauth2_server" 来注册
 spring:
