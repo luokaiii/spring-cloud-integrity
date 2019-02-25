@@ -4,4 +4,6 @@ security:
       id: order-service
       user-info-uri: http://localhost:8700/uaa/user
       prefer-token-info: false
-
+spring:
+  application:
+    name: order-service

@@ -1,6 +1,5 @@
 server:
   port: 8700
-
 spring:
   # 配置MySQL数据源
   datasource:
@@ -18,6 +17,9 @@ spring:
       ddl-auto: update
     # 显示执行的SQL
     show-sql: true
+  # 服务名
+  application:
+    name: auth-server
 
 # 向Eureka-Server 注册身份
 eureka:
