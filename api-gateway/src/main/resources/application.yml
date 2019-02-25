@@ -1,0 +1,9 @@
+security:
+  oauth2:
+    client:
+      access-token-uri: http://localhost:8700/uaa/oauth/token
+      user-authorization-uri: http://localhost:8700/uaa/oauth/authorize
+      client-id: webapp
+    resource:
+      user-info-uri: http://localhost:8700/uaa/user
+      prefer-token-info: false

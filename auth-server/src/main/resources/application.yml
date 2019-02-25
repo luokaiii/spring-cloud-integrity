@@ -1,0 +1,34 @@
+server:
+  port: 8700
+
+spring:
+  # 配置MySQL数据源
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/oauth?characterEncoding=UTF-8
+    username: root
+    password: password
+  # 配置Redis，缓存Token(也可以使用Mongo来缓存)
+  redis:
+    port: 6379
+    host: localhost
+  jpa:
+    # 更新或创建表(当表不存在时)
+    hibernate:
+      ddl-auto: update
+    # 显示执行的SQL
+    show-sql: true
+
+# 向Eureka-Server 注册身份
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/,http://localhost:18761/eureka/
+
+# 日志显示等级
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+
