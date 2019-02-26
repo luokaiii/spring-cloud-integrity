@@ -13,3 +13,9 @@ server:
 #  servlet:
 #        context-path 必须带上"/"
 #    context-path: /${spring.application.name}
+
+# 注册Eureka服务
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

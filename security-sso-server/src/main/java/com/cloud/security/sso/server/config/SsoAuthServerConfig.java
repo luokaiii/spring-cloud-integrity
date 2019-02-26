@@ -50,20 +50,20 @@ public class SsoAuthServerConfig extends AuthorizationServerConfigurerAdapter {
 //        clients.withClientDetails(clientDetailsService(dataSource));
         log.info("实例初始密码为：" + passwordEncoder.encode("clientSecret"));
         clients.inMemory()
-                .withClient("client1")
+                .withClient("client")
                 // 这个有个非常大的问题: 即 Spring-Security-OAuth2 依赖和 Spring-Cloud-Starter-OAuth2 依赖的区别：
                 //   1. SpringSecurityOAuth2 直接填写客户端密码即可
                 //   2. Cloud 版本则需要将密码进行 PasswordEncoder，且该配置需要与Security中配置相同
                 .secret("clientSecret")
                 .authorizedGrantTypes("authorization_code", "refresh_token", "password")
-                .redirectUris("http://localhost:8080/client1/login")
-                .scopes("all")
-                .and()
-                .withClient("client2")
-                .secret("clientSecret")
-                .authorizedGrantTypes("authorization_code", "refresh_token", "password")
-                .redirectUris("http://localhost:8060/client2/login")
+//                .redirectUris("http://localhost:8080/client1/login")
                 .scopes("all");
+//                .and()
+//                .withClient("client2")
+//                .secret("clientSecret")
+//                .authorizedGrantTypes("authorization_code", "refresh_token", "password")
+////                .redirectUris("http://localhost:8060/client2/login")
+//                .scopes("all");
     }
 
     /**

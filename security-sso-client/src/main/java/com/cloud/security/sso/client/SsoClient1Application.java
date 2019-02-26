@@ -2,12 +2,13 @@ package com.cloud.security.sso.client;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
 //@RestController
-//@EnableOAuth2Sso
+@EnableOAuth2Sso
 //@ComponentScan(basePackages = "com.cloud")
 public class SsoClient1Application {
 

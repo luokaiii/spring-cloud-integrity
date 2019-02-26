@@ -1,14 +1,17 @@
-
+# 配置Security
 security:
   oauth2:
     client:
-      access-token-uri: http://localhost:9999/sso-server/oauth/token
-      user-authorization-uri: http://localhost:9999/sso-server/oauth/authorize
-      clientId: client1
+      # 获取Token的地址，因为zuul中代理了认证服务器，因此直接由该服务进行转发
+      access-token-uri: http://localhost:8760/sso-server/oauth/token
+      user-authorization-uri: http://localhost:8760/sso-server/oauth/authorize
+      clientId: client
       clientSecret: clientSecret
     resource:
-      user-info-uri: http://localhost:9999/sso-server/user
+      user-info-uri: http://localhost:8760/sso-server/user
       prefer-token-info: false
+
+# Zuul 路由代理，所有请求匹配上 path 的都会被转发到 serviceId 对应的服务
 zuul:
   routes:
     sso-server:
@@ -24,15 +27,23 @@ zuul:
       sensitiveHeaders:
       serviceId: client2
   add-proxy-headers: true
+
+# 服务地址(该服务为唯一暴露的端口，其他所有服务都由此服务进行转发，如果有另一套微服务就另说了)
 server:
   port: 8760
+
+# 服务注册的地址(如果 Eureka-Server 都挂了，那么所有的 client 服务也都会失败，因此要做好 eureka-server 的高可用)
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+# 开启断路器功能(Feign默认集成了 Ribbon 负载均衡和 Hystrix 断路器功能)
 feign:
-  hystirx:
+  hystrix:
     enable: true
+
+# 服务名称(注册到 Eureka 时的实例名称)
 spring:
   application:
     name: api-gateway
