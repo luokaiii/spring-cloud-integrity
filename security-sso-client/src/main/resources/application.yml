@@ -8,16 +8,16 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/oauth?characterEncoding=UTF-8
 # 指定认证服务器配置
-security:
-  oauth2:
-    client:
-      clientId: ${spring.application.name}
-      clientSecret: clientSecret
-      user-authorization-uri: http://localhost:9999/oauth/authorize
-      access-token-uri: http://localhost:9999/oauth/token
-    resource:
-      jwt:
-        key-uri: http://localhost:9999/oauth/token_key
+#security:
+#  oauth2:
+#    client:
+#      clientId: ${spring.application.name}
+#      clientSecret: clientSecret
+#      user-authorization-uri: http://localhost:9999/oauth/authorize
+#      access-token-uri: http://localhost:9999/oauth/token
+#    resource:
+#      jwt:
+#        key-uri: http://localhost:9999/oauth/token_key
 
 # 声明端口与前缀
 server:

@@ -2,22 +2,14 @@
 spring:
   application:
     name: client2
-
-security:
-  oauth2:
-    client:
-      clientId: ${spring.application.name}
-      #      Basic Y2xpZW50MTpjbGllbnRTZWNyZXQ=
-      clientSecret: clientSecret
-      user-authorization-uri: http://localhost:9999/oauth/authorize
-      access-token-uri: http://localhost:9999/oauth/token
-#      registered-redirect-uri: http://localhost:${server.port}/${security.oauth2.client.clientId}/index.html
-    resource:
-      jwt:
-        key-uri: http://localhost:9999/oauth/token_key
+  datasource:
+    url: jdbc:mysql://localhost:3306/oauth?characterEncoding=UTF-8
+    username: root
+    password: password
+    driver-class-name: com.mysql.jdbc.Driver
 
 server:
   port: 8060
-  servlet:
-    #    context-path 必须带上"/"
-    context-path: /${spring.application.name}
+#  servlet:
+#        context-path 必须带上"/"
+#    context-path: /${spring.application.name}

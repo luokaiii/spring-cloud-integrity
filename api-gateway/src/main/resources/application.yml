@@ -2,25 +2,30 @@
 security:
   oauth2:
     client:
-      access-token-uri: http://localhost:8700/uaa/oauth/token
-      user-authorization-uri: http://localhost:8700/uaa/oauth/authorize
-      client-id: webapp
+      access-token-uri: http://localhost:9999/sso-server/oauth/token
+      user-authorization-uri: http://localhost:9999/sso-server/oauth/authorize
+      clientId: client1
+      clientSecret: clientSecret
     resource:
-      user-info-uri: http://localhost:8700/uaa/user
+      user-info-uri: http://localhost:9999/sso-server/user
       prefer-token-info: false
 zuul:
   routes:
-    uaa:
-      path: /uaa/**
+    sso-server:
+      path: /sso-server/**
       sensitiveHeaders:
-      serviceId: auth-server
-    order:
-      path: /order/**
+      serviceId: oauth2-server
+    client1:
+      path: /client1/**
       sensitiveHeaders:
-      serviceId: order-service
+      serviceId: client1
+    client2:
+      path: /client2/**
+      sensitiveHeaders:
+      serviceId: client2
   add-proxy-headers: true
 server:
-  port: 8764
+  port: 8760
 eureka:
   client:
     service-url:

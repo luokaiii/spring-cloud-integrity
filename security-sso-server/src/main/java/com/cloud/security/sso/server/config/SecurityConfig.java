@@ -5,6 +5,7 @@ import com.cloud.security.sso.server.service.SsoUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,6 +22,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SsoUserDetailsService userDetailsService;
 
+    @Bean
+    @Override
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
+    }
 
     /**
      * 密码校验逻辑，可以通过实现 PasswordEncoder 来实现自己的校验逻辑
