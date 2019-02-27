@@ -7,6 +7,8 @@ security:
       user-authorization-uri: http://localhost:8760/sso-server/oauth/authorize
       clientId: client
       clientSecret: clientSecret
+      # Security客户端缺少回调域，会出现 error="invalid_request", error_description="At least one redirect_uri must be registered with the client." 异常
+      registered-redirect-uri: http://localhost:8760/client1/index.html
     resource:
       user-info-uri: http://localhost:8760/sso-server/user
       prefer-token-info: false

@@ -20,6 +20,7 @@ public class UserInfoDetails extends UserInfo implements UserDetails {
 
     public UserInfoDetails(String loginName) {
         this.loginName = loginName;
+        this.setRoles("DEFAULT");
     }
 
     /**

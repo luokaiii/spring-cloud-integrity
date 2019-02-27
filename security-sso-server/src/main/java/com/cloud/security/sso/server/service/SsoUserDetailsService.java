@@ -1,5 +1,6 @@
 package com.cloud.security.sso.server.service;
 
+import com.cloud.security.sso.server.model.UserInfo;
 import com.cloud.security.sso.server.model.UserInfoDetails;
 import com.cloud.security.sso.server.repository.UserInfoRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -35,8 +36,12 @@ public class SsoUserDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        userInfoRepository.findByPhoneOrEmail(username, username)
-                .orElseThrow(() -> new UsernameNotFoundException("抱歉,未找到您的身份信息!"));
+        UserInfo userInfo = userInfoRepository.findByPhoneOrEmail(username, username)
+                .orElse(null);
+
+        if (userInfo == null)
+            log.info("抱歉，为找到您的身份信息!");
+
         log.info("查询用户信息: {},开始装载权限.", username);
 
         return new UserInfoDetails(username);
