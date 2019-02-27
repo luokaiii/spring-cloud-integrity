@@ -1,18 +1,22 @@
 package com.cloud.security.sso.server.config;
 
 import com.cloud.security.sso.server.handler.CustomPasswordEncoder;
+import com.cloud.security.sso.server.service.SsoUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
  * 认证服务器配置
@@ -24,13 +28,26 @@ public class SsoAuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
     private PasswordEncoder passwordEncoder = new CustomPasswordEncoder();
 
-//    @Autowired
-//    private DataSource dataSource;
-//
+    @Autowired
+    private RedisConnectionFactory redisConnectionFactory;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private SsoUserDetailsService userDetailsService;
+
+
+    /**
+     * 使用 JDBC 的方式管理 Client 实例，注意表结构
+     *  详见 {@link JdbcClientDetailsService}
+     */
 //    @Bean
 //    public JdbcClientDetailsService clientDetailsService(DataSource dataSource){
 //        return new JdbcClientDetailsService(dataSource);
 //    }
+
+
     /**
      * 客户端相关配置
      * 添加哪些客户端可以进行Token申请，以及客户端的相关配置
@@ -75,6 +92,7 @@ public class SsoAuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
         security
+                .allowFormAuthenticationForClients() // 允许对客户端进行表单身份验证
                 .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()");
     }
@@ -82,22 +100,31 @@ public class SsoAuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints
-                .tokenStore(jwtTokenStore())
-                .accessTokenConverter(jwtAccessTokenConverter());
+                .tokenStore(tokenStore())
+                .userDetailsService(userDetailsService)
+                .authenticationManager(authenticationManager);
+//                .accessTokenConverter(jwtAccessTokenConverter());
     }
 
+    /**
+     * todo 使用 Jwt 作为验签方式时，TokenGranter 只有四种类型，缺少了一种 password，why
+     */
+//    @Bean
+//    public TokenStore jwtTokenStore() {
+//        return new JwtTokenStore(jwtAccessTokenConverter());
+//    }
     @Bean
-    public TokenStore jwtTokenStore() {
-        return new JwtTokenStore(jwtAccessTokenConverter());
+    public TokenStore tokenStore() {
+        return new RedisTokenStore(redisConnectionFactory);
     }
 
     /**
      * Jwt的签名，拥有签名就可以解析token
      */
-    @Bean
-    public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey("koral");
-        return converter;
-    }
+//    @Bean
+//    public JwtAccessTokenConverter jwtAccessTokenConverter() {
+//        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+//        converter.setSigningKey("koral");
+//        return converter;
+//    }
 }

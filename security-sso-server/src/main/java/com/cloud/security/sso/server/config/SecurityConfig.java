@@ -11,12 +11,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
 
 /**
  * SpringSecurity安全配置
  */
 @EnableWebSecurity
-@Order(2)
+@Order(2) // Security与ResourceServer 都是以拦截器的方式处理请求，因此需要为这两个拦截器定义执行顺序
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -54,5 +55,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().anyRequest().permitAll();
 //                .antMatchers("/**").permitAll()
 //                .anyRequest().authenticated();
+    }
+
+    /**
+     * 在 WebSecurityConfigurerAdapter 中声明 SecurityEvaluationContextExtension
+     * 即可为 SpringSecurity 开启 Spring Data
+     * 详见 https://www.baeldung.com/spring-data-security
+     *
+     * @return
+     */
+    @Bean
+    public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
+        return new SecurityEvaluationContextExtension();
     }
 }
