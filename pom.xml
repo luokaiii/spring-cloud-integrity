@@ -15,8 +15,6 @@
         <module>security-sso-server</module>
         <module>security-sso-client</module>
         <module>security-sso-client2</module>
-        <module>auth-server</module>
-        <module>order-service</module>
         <module>api-gateway</module>
     </modules>
     <packaging>pom</packaging>
